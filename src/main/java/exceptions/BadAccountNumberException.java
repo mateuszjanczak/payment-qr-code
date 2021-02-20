@@ -1,10 +1,10 @@
 package exceptions;
 
-public class BadAccountNumber extends WrongInputException {
+public class BadAccountNumberException extends WrongInputException {
 
     private static final String message = "Bad account number";
 
-    public BadAccountNumber() {
+    public BadAccountNumberException() {
         super(message);
     }
 }

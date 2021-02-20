@@ -1,5 +1,4 @@
-import exceptions.BadAccountNumber;
-import exceptions.WrongInputException;
+import exceptions.*;
 
 import java.util.Optional;
 
@@ -30,6 +29,10 @@ public class PaymentQRCode {
         setNip(nip);
     }
 
+    public String getQRCode() {
+        return getNip() + SEPARATOR + getCountry() + SEPARATOR + getAccountNumber() + SEPARATOR + PaymentQRCodeUtils.parseAmountToString(this.amount) + SEPARATOR + getRecipient() + SEPARATOR + getTitle() + SEPARATOR + SEPARATOR + SEPARATOR;
+    }
+
     public String getRecipient() {
         return Optional.of(recipient).orElse("");
     }
@@ -54,17 +57,14 @@ public class PaymentQRCode {
         return Optional.ofNullable(nip).orElse("");
     }
 
-    public String getQRCode() {
-        return getNip() + SEPARATOR + getCountry() + SEPARATOR + getAccountNumber() + SEPARATOR + PaymentQRCodeUtils.parseAmountToString(this.amount) + SEPARATOR + getRecipient() + SEPARATOR + getTitle() + SEPARATOR + SEPARATOR + SEPARATOR;
-    }
-
-    public void setRecipient(String recipient) {
+    public void setRecipient(String recipient) throws BadRecipientException {
+        if(!PaymentQRCodeValidator.checkRecipient(recipient)) throw new BadRecipientException();
         this.recipient = recipient;
     }
 
-    public void setAccountNumber(String accountNumber) throws BadAccountNumber {
+    public void setAccountNumber(String accountNumber) throws BadAccountNumberException {
         String country = getCountry().isEmpty() ? "PL": getCountry();
-        if(!PaymentQRCodeValidator.checkAccountNumber(country + accountNumber)) throw new BadAccountNumber();
+        if(!PaymentQRCodeValidator.checkAccountNumber(country + accountNumber)) throw new BadAccountNumberException();
         this.accountNumber = accountNumber;
     }
 
@@ -72,15 +72,18 @@ public class PaymentQRCode {
         this.amount = PaymentQRCodeUtils.normalizeAmount(amount);
     }
 
-    public void setTitle(String title) {
+    public void setTitle(String title) throws BadTitleException {
+        if(!PaymentQRCodeValidator.checkTitle(title)) throw new BadTitleException();
         this.title = title;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(String country) throws BadCountryCodeException {
+        if(!PaymentQRCodeValidator.checkCountry(country)) throw new BadCountryCodeException();
         this.country = country;
     }
 
-    public void setNip(String nip) {
+    public void setNip(String nip) throws BadNipException {
+        if(!PaymentQRCodeValidator.checkNip(nip)) throw new BadNipException();
         this.nip = nip;
     }
 }
