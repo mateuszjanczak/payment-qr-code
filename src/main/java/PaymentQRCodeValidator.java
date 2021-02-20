@@ -36,19 +36,19 @@ class PaymentQRCodeValidator {
         return (total % IBAN_MODULUS) == 1;
     }
 
-    public static boolean checkNip(String nip) {
-        return nip.length() == 10 && NumberUtils.isCreatable(nip);
+    protected static boolean checkNip(String nip) {
+        return nip.length() == 10 && NumberUtils.isDigits(nip);
     }
 
-    public static boolean checkCountry(String country) {
+    protected static boolean checkCountry(String country) {
         return country.length() == 2 && StringUtils.isAlpha(country);
     }
 
-    public static boolean checkTitle(String title) {
-        return title.length() <= 32 && StringUtils.isAlphanumericSpace(title);
+    protected static boolean checkTitle(String title) {
+        return title.length() <= 32 && StringUtils.isAsciiPrintable(title);
     }
 
-    public static boolean checkRecipient(String recipient) {
+    protected static boolean checkRecipient(String recipient) {
         return recipient.length() <= 20 && StringUtils.isAlphanumericSpace(recipient);
     }
 }
