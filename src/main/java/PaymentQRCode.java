@@ -1,3 +1,8 @@
+import exceptions.BadAccountNumber;
+import exceptions.WrongInputException;
+
+import java.util.Optional;
+
 public class PaymentQRCode {
 
     protected final String SEPARATOR = "|";
@@ -6,23 +11,31 @@ public class PaymentQRCode {
     protected String accountNumber;
     protected double amount;
     protected String title;
+    protected String country;
+    protected String nip;
 
-    public PaymentQRCode() {
-    }
-
-    public PaymentQRCode(String recipient, String accountNumber, double amount, String title) {
+    public PaymentQRCode(String recipient, String accountNumber, double amount, String title) throws WrongInputException {
         setRecipient(recipient);
         setAccountNumber(accountNumber);
         setAmount(amount);
         setTitle(title);
     }
 
+    public PaymentQRCode(String recipient, String accountNumber, double amount, String title, String country, String nip) throws WrongInputException {
+        setRecipient(recipient);
+        setAccountNumber(accountNumber);
+        setAmount(amount);
+        setTitle(title);
+        setCountry(country);
+        setNip(nip);
+    }
+
     public String getRecipient() {
-        return recipient;
+        return Optional.of(recipient).orElse("");
     }
 
     public String getAccountNumber() {
-        return accountNumber;
+        return Optional.of(accountNumber).orElse("");
     }
 
     public double getAmount() {
@@ -30,52 +43,44 @@ public class PaymentQRCode {
     }
 
     public String getTitle() {
-        return title;
+        return Optional.of(title).orElse("");
+    }
+
+    public String getCountry() {
+        return Optional.ofNullable(country).orElse("");
+    }
+
+    public String getNip() {
+        return Optional.ofNullable(nip).orElse("");
     }
 
     public String getQRCode() {
-        return SEPARATOR + SEPARATOR + getAccountNumber() + SEPARATOR + parseAmountToInteger(this.amount) + SEPARATOR + getRecipient() + SEPARATOR + getTitle() + SEPARATOR + SEPARATOR + SEPARATOR;
+        return getNip() + SEPARATOR + getCountry() + SEPARATOR + getAccountNumber() + SEPARATOR + PaymentQRCodeUtils.parseAmountToString(this.amount) + SEPARATOR + getRecipient() + SEPARATOR + getTitle() + SEPARATOR + SEPARATOR + SEPARATOR;
     }
 
     public void setRecipient(String recipient) {
         this.recipient = recipient;
     }
 
-    public void setAccountNumber(String accountNumber) {
+    public void setAccountNumber(String accountNumber) throws BadAccountNumber {
+        String country = getCountry().isEmpty() ? "PL": getCountry();
+        if(!PaymentQRCodeValidator.checkAccountNumber(country + accountNumber)) throw new BadAccountNumber();
         this.accountNumber = accountNumber;
     }
 
     public void setAmount(double amount) {
-        this.amount = normalizeAmount(amount);
+        this.amount = PaymentQRCodeUtils.normalizeAmount(amount);
     }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
-    protected String parseAmountToInteger(double amount) {
-
-        StringBuilder parsedAmount;
-
-        if ((int) amount == amount) {
-            parsedAmount = new StringBuilder((int) amount + "00");
-        } else {
-            parsedAmount = new StringBuilder(String.valueOf((int) (amount * 100)));
-        }
-
-        while(parsedAmount.length() < 6) {
-            parsedAmount.insert(0, "0");
-        }
-
-        return parsedAmount.toString();
+    public void setCountry(String country) {
+        this.country = country;
     }
 
-    protected double normalizeAmount(double amount){
-        if((int) amount == amount) {
-            return amount;
-        } else {
-            int temp = (int)(amount * 100.0);
-            return ((double) temp) / 100.0;
-        }
+    public void setNip(String nip) {
+        this.nip = nip;
     }
 }
