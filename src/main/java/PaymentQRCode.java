@@ -16,18 +16,18 @@ public class PaymentQRCode {
 
     public PaymentQRCode(String recipient, String accountNumber, double amount, String title, String country) throws WrongInputException {
         setRecipient(recipient);
+        setCountry(country);
         setAccountNumber(accountNumber);
         setAmount(amount);
         setTitle(title);
-        setCountry(country);
     }
 
     public PaymentQRCode(String recipient, String accountNumber, double amount, String title, String country, String nip) throws WrongInputException {
         setRecipient(recipient);
+        setCountry(country);
         setAccountNumber(accountNumber);
         setAmount(amount);
         setTitle(title);
-        setCountry(country);
         setNip(nip);
     }
 
@@ -65,8 +65,7 @@ public class PaymentQRCode {
     }
 
     public void setAccountNumber(String accountNumber) throws BadAccountNumberException {
-        String country = getCountry().isEmpty() ? "PL" : getCountry();
-        if (!PaymentQRCodeValidator.checkAccountNumber(country + accountNumber)) throw new BadAccountNumberException();
+        if (!PaymentQRCodeValidator.checkAccountNumber(getCountry() + accountNumber)) throw new BadAccountNumberException();
         this.accountNumber = accountNumber;
     }
 
@@ -89,32 +88,32 @@ public class PaymentQRCode {
         this.nip = nip;
     }
 
-    public static interface RecipientStep {
+    public interface RecipientStep {
         AccountNumberStep withRecipient(String recipient);
     }
 
-    public static interface AccountNumberStep {
+    public interface AccountNumberStep {
         AmountStep withAccountNumber(String accountNumber);
     }
 
-    public static interface AmountStep {
+    public interface AmountStep {
         TitleStep withAmount(double amount);
     }
 
-    public static interface TitleStep {
+    public interface TitleStep {
         CountryStep withTitle(String title);
     }
 
-    public static interface CountryStep {
+    public interface CountryStep {
         NipStep withCountry(String country);
     }
 
-    public static interface NipStep {
+    public interface NipStep {
         BuildStep withNip(String nip);
         PaymentQRCode build() throws WrongInputException;
     }
 
-    public static interface BuildStep {
+    public interface BuildStep {
         PaymentQRCode build() throws WrongInputException;
     }
 
