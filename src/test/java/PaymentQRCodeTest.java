@@ -55,7 +55,7 @@ class PaymentQRCodeTest {
                 "PL"
         );
 
-        assertEquals("|PL|92124012340001567890123456|005350|Jan Kowalski|Rachunek za obiad|||", paymentQRCode.getQRCode());
+        assertEquals("|PL|92124012340001567890123456|005350|Jan Kowalski|Rachunek za obiad|||", paymentQRCode.getQRCodeSubject());
     }
 
     @Test
@@ -69,7 +69,7 @@ class PaymentQRCodeTest {
                 .withCountry("PL")
                 .build();
 
-        assertEquals("|PL|92124012340001567890123456|005350|Jan Kowalski|Rachunek za obiad|||", paymentQRCode.getQRCode());
+        assertEquals("|PL|92124012340001567890123456|005350|Jan Kowalski|Rachunek za obiad|||", paymentQRCode.getQRCodeSubject());
     }
 
     @Test
@@ -84,6 +84,6 @@ class PaymentQRCodeTest {
                 .withNip("1234567890")
                 .build();
 
-        assertEquals("1234567890|PL|92124012340001567890123456|005350|Jan Kowalski|Rachunek za obiad|||", paymentQRCode.getQRCode());
+        assertEquals("1234567890|PL|92124012340001567890123456|005350|Jan Kowalski|Rachunek za obiad|||", paymentQRCode.getQRCodeSubject());
     }
 }

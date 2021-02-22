@@ -31,7 +31,7 @@ public class PaymentQRCode {
         setNip(nip);
     }
 
-    public String getQRCode() {
+    public String getQRCodeSubject() {
         return getNip() + SEPARATOR + getCountry() + SEPARATOR + getAccountNumber() + SEPARATOR + PaymentQRCodeUtils.parseAmountToString(this.amount) + SEPARATOR + getRecipient() + SEPARATOR + getTitle() + SEPARATOR + SEPARATOR + SEPARATOR;
     }
 
