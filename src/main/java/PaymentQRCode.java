@@ -1,5 +1,6 @@
 import exceptions.*;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class PaymentQRCode {
@@ -170,14 +171,24 @@ public class PaymentQRCode {
 
         @Override
         public PaymentQRCode build() throws WrongInputException {
-            return new PaymentQRCode(
-                    this.recipient,
-                    this.accountNumber,
-                    this.amount,
-                    this.title,
-                    this.country,
-                    this.nip
-            );
+            if(Objects.isNull(this.nip)) {
+                return new PaymentQRCode(
+                        this.recipient,
+                        this.accountNumber,
+                        this.amount,
+                        this.title,
+                        this.country
+                );
+            } else {
+                return new PaymentQRCode(
+                        this.recipient,
+                        this.accountNumber,
+                        this.amount,
+                        this.title,
+                        this.country,
+                        this.nip
+                );
+            }
         }
     }
 }
