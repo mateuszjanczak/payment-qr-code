@@ -4,14 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.mateuszjanczak</groupId>
+    <groupId>com.github.mateuszjanczak</groupId>
     <artifactId>payment-qr-code</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-
-    <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
 
     <name>Payment QR Code Library</name>
     <description>Library for formatting data for bank transfers for qr code generators.</description>
@@ -24,6 +20,21 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <name>Mateusz Janczak</name>
+            <email>mateuszjanczak.mj@gmail.com</email>
+            <organization>com.github.mateuszjanczak</organization>
+            <organizationUrl>https://github.com/mateuszjanczak/</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/mateuszjanczak/payment-qr-code.git</connection>
+        <developerConnection>scm:git:ssh://github.com/mateuszjanczak/payment-qr-code.git</developerConnection>
+        <url>https://github.com/mateuszjanczak/payment-qr-code</url>
+    </scm>
+
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
@@ -35,20 +46,11 @@
         </repository>
     </distributionManagement>
 
-    <scm>
-        <connection>scm:git:git://github.com/mateuszjanczak/payment-qr-code.git</connection>
-        <developerConnection>scm:git:ssh://github.com/mateuszjanczak/payment-qr-code.git</developerConnection>
-        <url>https://github.com/mateuszjanczak/payment-qr-code</url>
-    </scm>
-
-    <developers>
-        <developer>
-            <name>Mateusz Janczak</name>
-            <email>mateuszjanczak.mj@gmail.com</email>
-            <organization>com.github.mateuszjanczak</organization>
-            <organizationUrl>https://github.com/mateuszjanczak/</organizationUrl>
-        </developer>
-    </developers>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -66,22 +68,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M5</version>
-            </plugin>
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.8</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -107,6 +93,11 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
             </plugin>
         </plugins>
     </build>
