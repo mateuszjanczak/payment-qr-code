@@ -1,4 +1,6 @@
-import exceptions.*;
+package com.github.mateuszjanczak.paymentqrcode;
+
+import com.github.mateuszjanczak.paymentqrcode.exceptions.*;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -39,38 +41,31 @@ public class PaymentQRCode {
         return Optional.of(recipient).orElse("");
     }
 
+    public void setRecipient(String recipient) throws BadRecipientException {
+        if (!PaymentQRCodeValidator.checkRecipient(recipient)) throw new BadRecipientException();
+        this.recipient = recipient;
+    }
+
     public String getAccountNumber() {
         return Optional.of(accountNumber).orElse("");
+    }
+
+    public void setAccountNumber(String accountNumber) throws BadAccountNumberException {
+        if (!PaymentQRCodeValidator.checkAccountNumber(getCountry() + accountNumber))
+            throw new BadAccountNumberException();
+        this.accountNumber = accountNumber;
     }
 
     public double getAmount() {
         return amount;
     }
 
-    public String getTitle() {
-        return Optional.of(title).orElse("");
-    }
-
-    public String getCountry() {
-        return Optional.ofNullable(country).orElse("");
-    }
-
-    public String getNip() {
-        return Optional.ofNullable(nip).orElse("");
-    }
-
-    public void setRecipient(String recipient) throws BadRecipientException {
-        if (!PaymentQRCodeValidator.checkRecipient(recipient)) throw new BadRecipientException();
-        this.recipient = recipient;
-    }
-
-    public void setAccountNumber(String accountNumber) throws BadAccountNumberException {
-        if (!PaymentQRCodeValidator.checkAccountNumber(getCountry() + accountNumber)) throw new BadAccountNumberException();
-        this.accountNumber = accountNumber;
-    }
-
     public void setAmount(double amount) {
         this.amount = PaymentQRCodeUtils.normalizeAmount(amount);
+    }
+
+    public String getTitle() {
+        return Optional.of(title).orElse("");
     }
 
     public void setTitle(String title) throws BadTitleException {
@@ -78,9 +73,17 @@ public class PaymentQRCode {
         this.title = title;
     }
 
+    public String getCountry() {
+        return Optional.ofNullable(country).orElse("");
+    }
+
     public void setCountry(String country) throws BadCountryCodeException {
         if (!PaymentQRCodeValidator.checkCountry(country)) throw new BadCountryCodeException();
         this.country = country;
+    }
+
+    public String getNip() {
+        return Optional.ofNullable(nip).orElse("");
     }
 
     public void setNip(String nip) throws BadNipException {
@@ -110,6 +113,7 @@ public class PaymentQRCode {
 
     public interface NipStep {
         BuildStep withNip(String nip);
+
         PaymentQRCode build() throws WrongInputException;
     }
 
@@ -170,7 +174,7 @@ public class PaymentQRCode {
 
         @Override
         public PaymentQRCode build() throws WrongInputException {
-            if(Objects.isNull(this.nip)) {
+            if (Objects.isNull(this.nip)) {
                 return new PaymentQRCode(
                         this.recipient,
                         this.accountNumber,

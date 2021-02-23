@@ -1,7 +1,10 @@
-import exceptions.WrongInputException;
+package com.github.mateuszjanczak.paymentqrcode;
+
+import com.github.mateuszjanczak.paymentqrcode.exceptions.WrongInputException;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PaymentQRCodeTest {
 

@@ -1,4 +1,4 @@
-package exceptions;
+package com.github.mateuszjanczak.paymentqrcode.exceptions;
 
 public class BadNipException extends WrongInputException {
 
