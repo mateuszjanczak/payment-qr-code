@@ -1,3 +1,5 @@
+package com.github.mateuszjanczak.paymentqrcode;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
