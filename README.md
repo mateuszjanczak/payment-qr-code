@@ -1,7 +1,14 @@
-## Payment QR Code
+## Payment QR Code ![CircleCI](https://circleci.com/gh/mateuszjanczak/payment-qr-code.svg?style=svg&circle-token=d4addbd70fd7d6ee51387795587db6a1505da19e)
 Library for formatting data for bank transfers for qr code generators.
 
-### Status ![CircleCI](https://circleci.com/gh/mateuszjanczak/payment-qr-code.svg?style=svg&circle-token=d4addbd70fd7d6ee51387795587db6a1505da19e)
+### Installation
+```xml
+<dependency>
+    <groupId>com.github.mateuszjanczak</groupId>
+    <artifactId>payment-qr-code</artifactId>
+    <version>1.0.1</version>
+</dependency>
+```
 
 ### Usage
 ```java
