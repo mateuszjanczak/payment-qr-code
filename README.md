@@ -27,6 +27,9 @@ PaymentQRCode paymentQRCode = PaymentQRCode.Builder
 String subject = paymentQRCode.getQRCodeSubject();
 ```
 
+### Preview
+![Preview](./docs/preview.gif)
+
 ### Footnotes
 
 Library
